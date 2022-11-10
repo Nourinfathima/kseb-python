@@ -41,7 +41,7 @@ while True:
 
         print("Search Consumer selected")
         searchOption = input("Enter the Consumer Code/Name/Phone to search: ")
-        sql = "SELECT `consumerCode`, `consumerName`, `consumerPhone`8, `consumerAddress` FROM `consumer` WHERE `consumerCode` ='"+searchOption+"'  OR `consumerName`='"+searchOption+"' OR `consumerPhone` ='"+searchOption+"' "
+        sql = "SELECT `consumerCode`, `consumerName`, `consumerPhone`, `consumerAddress` FROM `consumer` WHERE `consumerCode` ='"+searchOption+"'  OR `consumerName`='"+searchOption+"' OR `consumerPhone` ='"+searchOption+"' "
         mycursor.execute(sql)
         result = mycursor.fetchall()
         for i in result:
@@ -58,18 +58,78 @@ while True:
 
     elif(choice==4):
 
-        print("update employe selected")
+        
+        print("Update Consumer selected")
+        consumerCode = input("Enter the consumer code to update consumer: ")
+        consumerName = input("Enter the consumer name to update: ")
+        consumerPhone = input("Enter the consumer phone to update: ")
+        consumerEmail = input("Enter the consumer email id to update: ")
+        consumerAddress = input("Enter the consumer address to update: ")
+        sql = "UPDATE `consumer` SET `consumerName`='"+consumerName+"',`consumerPhone`='"+consumerPhone+"',`consumerAddress`='"+consumerAddress+"' WHERE `consumerCode` = "+consumerCode
+        mycursor.execute(sql)
+        mydb.commit()
+        print("Data updated successfully")
 
     elif(choice==5):
-        print("view employe selected")
+       
+       print("View All Consumer selected")
+       sql = "SELECT `consumerCode`, `consumerName`, `consumerPhone`, `consumerAddress` FROM `consumer` "
+       mycursor.execute(sql)
+       result = mycursor.fetchall()
+       for i in result:
+            print(i)
+       
 
     elif(choice==6):
-        print("generate the consumerbill ")
+
+        print('generate bill selected')
+
+        consumercode=input("enter the consumer code")
+
+        sql="SELECT `id` FROM `consumer` WHERE `consumercode`='"+consumercode+"'"
+
+        mycursor.execute(sql)
+
+        result=mycursor.fetchall()
+
+        for i in result:
+
+            a=i[0]
+
+            print(a)
+
+        month=11    
+
+        sql="SELECT SUM(unit) FROM `usage` WHERE `consumercode`='"+str(a)+"' AND MONTH(date)="+str(month)
+
+        mycursor.execute(sql)
+
+        result=mycursor.fetchone()
+
+        unit=(result[0])
+
+        print(result)
+
+            #print(i)
+
+        total_bill=int(str(result[0])) * 5
+
+        print(total_bill)
+
+        #date= datetime.today().strftime('%Y-%m-%d')
+
+        sql="INSERT INTO `bill`(`consumercode`, `month`, `year`, `bill`, `billdate`, `billstatus`, `totalunit`) VALUES (%s,%s,%s,%s,%s,now(),%s)"
+
+        data = (str(a),str(month),'2022',total_bill,'0',unit)
+
+        mycursor.execute(sql,data)
+
+        mydb.commit()
+
+        print("Bill inserted successfully.")
 
     elif(choice==7):
-        print("view bill")
-
+            print("view consumerbill")
     elif(choice==8):
-        print("Exit")
-
-        break
+            print("Exit")
+    break
