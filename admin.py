@@ -82,54 +82,55 @@ while True:
 
     elif(choice==6):
 
-        print('generate bill selected')
+       print('generate bill selected')
 
-        consumercode=input("enter the consumer code")
+       consumercode=input("enter the consumer code")
 
-        sql="SELECT `id` FROM `consumer` WHERE `consumercode`='"+consumercode+"'"
+       sql="SELECT `id` FROM `consumer` WHERE `consumercode`='"+consumercode+"'"
 
-        mycursor.execute(sql)
+       mycursor.execute(sql)
 
-        result=mycursor.fetchall()
+       result=mycursor.fetchall()
 
-        for i in result:
+       for i in result:
 
             a=i[0]
 
             print(a)
 
-        month=11    
+       month=11    
 
-        sql="SELECT SUM(unit) FROM `usage` WHERE `consumercode`='"+str(a)+"' AND MONTH(date)="+str(month)
+       sql="SELECT SUM(unit) FROM `usage` WHERE `consumercode`='"+str(a)+"' AND MONTH(date)="+str(month)
 
-        mycursor.execute(sql)
+       mycursor.execute(sql)
 
-        result=mycursor.fetchone()
+       result=mycursor.fetchone()
 
-        unit=(result[0])
+       unit=(result[0])
 
-        print(result)
+       print(result)
 
             #print(i)
 
-        total_bill=int(str(result[0])) * 5
+       total_bill=int(str(result[0])) * 5
 
-        print(total_bill)
+       print(total_bill)
 
         #date= datetime.today().strftime('%Y-%m-%d')
 
-        sql="INSERT INTO `bill`(`consumercode`, `month`, `year`, `bill`, `billdate`, `billstatus`, `totalunit`) VALUES (%s,%s,%s,%s,%s,now(),%s)"
+       sql="INSERT INTO `bill`(`consumercode`, `month`, `year`, `bill`, `billdate`, `billstatus`, `totalunit`) VALUES (%s,%s,%s,%s,%s,now(),%s)"
 
-        data = (str(a),str(month),'2022',total_bill,'0',unit)
+       data = (str(a),str(month),'2022',total_bill,'0',unit)
 
-        mycursor.execute(sql,data)
+       mycursor.execute(sql,data)
 
-        mydb.commit()
+       mydb.commit()
 
-        print("Bill inserted successfully.")
+       print("Bill inserted successfully.")
 
     elif(choice==7):
             print("view consumerbill")
     elif(choice==8):
             print("Exit")
     break
+ 
