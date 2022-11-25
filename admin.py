@@ -154,8 +154,13 @@ while True:
        
 
     elif(choice==7):
-            print("view consumerbill")
-            
+        print("view consumerbill")
+        sql = "SELECT  b.`id`, b.`month`, b.`year`, b.`bill`, b.`billstatus`, b.`billdate`, b.`totalunit`, b.`billdate`, b.`totalunit`,c.consumerCode,c.consumerName FROM `bill` b JOIN consumer c ON c.id=b.consumercode" 
+        mycursor.execute(sql)
+        result = mycursor.fetchall()
+        # for i in result:
+        #     print(i)
+        print(tabulate(result,headers=["ConsumerID","Month","Year","Bill","PaidStatus","BillDate","TotalUnit","DueDate","Invoice","ConsumerCode","ConsumerName"],tablefmt="psql"))
     elif(choice==8):
             print("Exit")
     break
